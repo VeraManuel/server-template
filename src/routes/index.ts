@@ -1,8 +1,8 @@
-import { Router } from 'express'
-import helloRoute from './hello.route'
+import { Router } from 'express';
+import helloRoute from './hello.route';
 
-const router = Router()
+const router = Router();
 
-router.use(helloRoute)
+router.use(helloRoute);
 
-export default router
+export default router;
