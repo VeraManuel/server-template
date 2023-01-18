@@ -9,7 +9,7 @@ class HelloRoute {
   }
 
   createRoutes(): void {
-    this.router.get('/', this.handleHello.bind(this));
+    this.router.get('/hello', this.handleHello.bind(this));
   }
 
   private handleHello(req: Request, res: Response, next: NextFunction) {

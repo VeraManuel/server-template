@@ -2,7 +2,7 @@ class HelloService {
   async helloEndpoint() {
     return {
       status: 200,
-      Message: 'Hello World',
+      message: 'Hello World',
     };
   }
 }

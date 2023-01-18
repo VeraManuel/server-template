@@ -1,0 +1,133 @@
+openapi: 3.0.1
+info:
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+  title: Server template Express + typeScript
+  license:
+    name: ISC
+  contact:
+    name: Manuel Vera
+paths:
+  '/hello':
+    get:
+      tags:
+        - Hello
+      summary: Endpoint example
+      description: Endpoint example. Remove it in real projects.
+      operationId: hello
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+servers:
+  - url: 'http://localhost:8080/api/v1'
+    description: Local
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+      environment:
+        enum:
+          - localhost:8080
+        default: localhost:8080
+components:
+  responses:
+    Success:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StandardResponse'
+    Unauthorized:
+      description: Access token is missing or is invalid
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal server error
+  schemas:
+    StandardResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          example: 200
+        message:
+          type: string
+          example: Successful operation
+    Error:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorItem'
+        status:
+          type: number
+          example: 400
+    ErrorItem:
+      type: object
+      properties:
+        key:
+          type: string
+          example: app.login.invalidPassword
+        message:
+          type: string
+          example: Invalid user or password
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number
+      schema:
+        type: number
+        default: 1
+    page_size:
+      name: page_size
+      in: query
+      description: Limit the number of results
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 10
+    sort:
+      name: sort
+      in: query
+      description: Attribute to sort by
+      schema:
+        type: string
+    sort_dir:
+      name: sort_dir
+      in: query
+      description: Sorting direction
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC

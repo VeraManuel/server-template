@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { logger, errorLogger } from 'express-winston';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
 import config from './config';
 import logs from './utils/logger';
 import router from './routes';
@@ -24,9 +26,15 @@ app.use(
   })
 );
 
+// Load swagger except in production
+if(config.NODE_ENV !== 'PRODUCTION') {
+  const swaggerDoc = YAML.load(config.DIR_SWAGGER || '');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+}
+
 // Routes
 
-app.use('/api', router);
+app.use('/api/v1', router);
 
 // logs error routes
 app.use(

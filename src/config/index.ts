@@ -8,4 +8,5 @@ if (envFound.error) {
 export default {
   PORT: Number(process.env.PORT || 8080),
   NODE_ENV: process.env.NODE_ENV || 'DEVELOPMENT',
+  DIR_SWAGGER: 'src/config/docs/swagger.yml'
 };
