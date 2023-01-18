@@ -8,6 +8,7 @@ import config from './config';
 import logs from './utils/logger';
 import router from './routes';
 import handle from './config/errors/error-handler';
+import DatabaseSingleton from './config/database'
 
 const app = express();
 const port = config.PORT;
@@ -27,9 +28,9 @@ app.use(
 );
 
 // Load swagger except in production
-if(config.NODE_ENV !== 'PRODUCTION') {
+if (config.NODE_ENV !== 'PRODUCTION') {
   const swaggerDoc = YAML.load(config.DIR_SWAGGER || '');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 }
 
 // Routes
@@ -50,3 +51,6 @@ handle(app);
 app.listen(port, () => {
   logs.info(`Listening on http://localhost:${port}`);
 });
+
+// init database
+const DB = DatabaseSingleton
